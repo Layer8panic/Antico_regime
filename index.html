@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2B4C7E">
+<meta name="description" content="App per studiare l'Antico Regime e prepararsi con sicurezza all'interrogazione orale di storia.">
+<title>Antico Regime – Studia e preparati all'interrogazione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBF7EF; --card:#FFFFFF; --card2:#FFFDF8; --ink:#1F2430; --soft:#5B6273; --line:#E6DFD1;
+  --blue:#2B4C7E; --blue-l:#E7EEF8; --gold:#9A6A1E; --gold-l:#FBF0DC;
+  --green:#2E7D5B; --green-l:#E3F3EA; --red:#B5473A; --red-l:#F8E5E2;
+  --fs:18px; --r:16px;
+}
+body.dark{
+  --bg:#14171F; --card:#1E2330; --card2:#232838; --ink:#ECEEF3; --soft:#A7AEBE; --line:#323A4C;
+  --blue:#8FB2E8; --blue-l:#253452; --gold:#E3B866; --gold-l:#3A3122;
+  --green:#5CC395; --green-l:#1F3A2F; --red:#E58A7E; --red-l:#43272A;
+}
+*{box-sizing:border-box}
+html{font-size:var(--fs)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;padding-bottom:100px;-webkit-text-size-adjust:100%}
+body.big{--fs:21px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.2;margin:0 0 .5rem}
+h1{font-size:1.5rem} h2{font-size:1.32rem} h3{font-size:1.1rem}
+p{margin:.4rem 0 .8rem}
+button{font:inherit;cursor:pointer;border:none;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+header.top{background:#2B4C7E;color:#fff;padding:16px 0 20px}
+body.dark header.top{background:#1B2B47}
+header.top h1{color:#fff}
+header.top p{opacity:.92;margin:.2rem 0 0;font-size:.95rem}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.18);color:#fff;border-radius:999px;padding:6px 12px;font-size:.82rem;font-weight:700;white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:14px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 18px;border-radius:12px;background:#2B4C7E;color:#fff;font-weight:700;min-height:52px;text-align:center}
+body.dark .btn{background:#3D63A0}
+.btn.alt{background:var(--blue-l);color:var(--blue)}
+.btn.green{background:#2E7D5B} .btn.red{background:#B5473A} .btn.gold{background:#9A6A1E}
+.btn.small{min-height:40px;padding:8px 14px;font-size:.88rem}
+.btn.full{width:100%}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.6}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>.btn{flex:1 1 140px}
+.muted{color:var(--soft);font-size:.92rem}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ricorda{background:var(--gold-l);border-left:5px solid var(--gold);border-radius:12px;padding:12px 14px;margin:12px 0}
+.ricorda b{color:var(--gold)}
+.info{background:var(--blue-l);border-radius:12px;padding:12px 14px;margin:12px 0}
+ul.dots{padding-left:1.1rem;margin:.4rem 0} ul.dots li{margin:.4rem 0}
+.kw{display:inline-block;background:var(--blue-l);color:var(--blue);border-radius:999px;padding:4px 12px;margin:3px 4px 3px 0;font-weight:700;font-size:.9rem}
+.spk{background:var(--blue-l);color:var(--blue);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:700;min-height:36px}
+.head-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:10}
+nav.tabs button{background:none;color:var(--soft);display:flex;flex-direction:column;align-items:center;font-size:.7rem;padding:6px 2px;border-radius:10px;flex:1;min-height:56px;max-width:110px}
+nav.tabs button svg{width:24px;height:24px;margin-bottom:2px}
+nav.tabs button.on{color:var(--blue);background:var(--blue-l);font-weight:700}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;text-align:left;min-height:118px;display:flex;flex-direction:column;gap:4px}
+.tile .ic{font-size:1.6rem}
+.tile span{font-size:.85rem;color:var(--soft)}
+.hero{background:linear-gradient(135deg,#2E7D5B,#2B4C7E);color:#fff;border:none}
+.hero .muted{color:rgba(255,255,255,.88)}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .4s}
+.parts .pr{display:grid;grid-template-columns:1fr 70px;gap:8px;align-items:center;margin:8px 0;font-size:.9rem}
+
+.lesson-list button{width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:8px 0;display:flex;gap:12px;align-items:center}
+.num{flex:0 0 38px;height:38px;border-radius:50%;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800}
+.num.done{background:#2E7D5B;color:#fff}
+.timeline{position:relative;padding-left:24px;margin:8px 0}
+.timeline:before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:3px;background:var(--line);border-radius:2px}
+.tl{position:relative;margin:0 0 12px}
+.tl:before{content:"";position:absolute;left:-22px;top:7px;width:13px;height:13px;border-radius:50%;background:var(--gold);border:2px solid var(--card);box-shadow:0 0 0 2px var(--gold)}
+.tl b{color:var(--blue)}
+
+.flip{perspective:1200px;margin:14px 0}
+.fc{position:relative;min-height:320px;transition:transform .5s;transform-style:preserve-3d;cursor:pointer}
+.fc.on{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.07);overflow:auto}
+.face.back{transform:rotateY(180deg);background:var(--card2)}
+.face .q{font-family:Fraunces,serif;font-size:1.25rem;font-weight:600}
+.hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:.8rem;color:var(--soft)}
+select{font:inherit;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:100%}
+
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:14px;margin:8px 0;min-height:54px}
+.opt.ok{border-color:var(--green);background:var(--green-l)}
+.opt.no{border-color:var(--red);background:var(--red-l)}
+.opt:disabled{cursor:default;opacity:1}
+.fb{border-radius:12px;padding:12px 14px;margin-top:10px}
+.fb.ok{background:var(--green-l)} .fb.no{background:var(--red-l)}
+
+.prof{display:flex;gap:12px;align-items:flex-start}
+.prof .av{flex:0 0 48px;height:48px;border-radius:50%;background:var(--gold-l);display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.bubble{background:var(--card2);border:1px solid var(--line);border-radius:4px 16px 16px 16px;padding:14px 16px;font-family:Fraunces,serif;font-size:1.15rem;font-weight:600;flex:1}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;color:var(--blue);font-size:1.4rem}
+.steps5{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px;margin:10px 0}
+.steps5 div{background:var(--blue-l);border-radius:10px;padding:10px;font-size:.9rem}
+.steps5 b{display:block;color:var(--blue)}
+.dots-step{display:flex;gap:6px;margin:6px 0 10px}
+.dots-step i{flex:1;height:6px;border-radius:9px;background:var(--line)}
+.dots-step i.on{background:var(--blue)}
+.voto{font-family:Fraunces,serif;font-size:3rem;font-weight:800;color:var(--green);line-height:1}
+
+.breath{display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.circle{width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#A9C4E8,#2B4C7E);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem;transform:scale(.6);transition:transform 4s ease-in-out;text-align:center;padding:14px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#1F2430;color:#fff;padding:12px 18px;border-radius:12px;font-size:.95rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:20;max-width:90%;text-align:center}
+.toast.on{opacity:1}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
+details summary{font-weight:700;cursor:pointer}
+.err{border-left:4px solid var(--red);padding:6px 10px;margin:8px 0;background:var(--red-l);border-radius:8px;font-size:.92rem}
+@media (max-width:380px){ .grid{grid-template-columns:1fr} nav.tabs button{font-size:.62rem} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+@media print{ nav.tabs,.toast,header .pill,button{display:none!important} body{padding:0} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap" style="padding-top:0;padding-bottom:0">
+    <div class="toprow">
+      <span class="pill">📜 Storia · Verifica orale</span>
+      <span style="display:flex;gap:6px">
+        <button class="pill" id="darkBtn" aria-label="Tema chiaro o scuro">🌙</button>
+        <button class="pill" id="bigBtn" aria-label="Ingrandisci il testo">A+</button>
+      </span>
+    </div>
+    <h1 style="margin-top:12px">L'Antico Regime e l'Europa del 1700</h1>
+    <p>Studia con calma, ripassa e arriva all'interrogazione sicuro di te.</p>
+  </div>
+</header>
+
+<main class="wrap" id="app" aria-live="polite"></main>
+
+<nav class="tabs" id="tabs" aria-label="Menu principale">
+  <button data-v="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Inizio</button>
+  <button data-v="impara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>Impara</button>
+  <button data-v="carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Ripassa</button>
+  <button data-v="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/></svg>Quiz</button>
+  <button data-v="prova"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Prova</button>
+  <button data-v="calma"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>Calma</button>
+</nav>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ================= DATI ================= */
+const PARTI = ["Il re assoluto","I tre ordini","Borghesia e contadini","Prussia, Russia, Polonia","Guerre di successione","Guerra dei Sette Anni"];
+
+const LEZIONI = [
+{ t:"Cos'è l'Antico Regime e il re assoluto", ic:"👑",
+  breve:"L'<b>Antico Regime</b> è il modo in cui era organizzata l'Europa dal <b>1492</b> fino al <b>1789</b>, l'anno della Rivoluzione francese. Al comando c'era un re con <b>tutti i poteri</b>.",
+  punti:[
+   "Il nome lo inventarono i <b>rivoluzionari francesi</b> nel 1789, in senso negativo: era la società “vecchia” da cancellare.",
+   "Lo storico <b>Alexis de Tocqueville</b>, nell'Ottocento, riprese questa parola.",
+   "La forma di governo più diffusa era la <b>monarchia assoluta</b>: il re fa le leggi, giudica, comanda l'esercito, sceglie i funzionari e decide le tasse.",
+   "Il re diceva di avere il potere <b>da Dio</b> (<b>diritto divino</b>). I sudditi dovevano solo <b>obbedire</b>.",
+   "Modelli perfetti di re assoluto: la <b>Francia di Luigi XIV</b> (il Re Sole) e l'<b>Austria degli Asburgo</b>.",
+   "Eccezioni (niente re assoluto): <b>Inghilterra</b> (monarchia parlamentare), <b>Paesi Bassi</b>, <b>Repubblica di Venezia</b> e <b>Svizzera</b>."
+  ],
+  ricorda:"Antico Regime = <b>re assoluto</b> + <b>società divisa</b>. Dura fino al <b>1789</b>.",
+  gloss:[["Assoluto","Dal latino “sciolto”: il re è libero da ogni legge e controllo."],["Diritto divino","L'idea che il potere del re venga direttamente da Dio."]]
+},
+{ t:"La società divisa in tre ordini", ic:"⚖️",
+  breve:"La società era divisa in <b>tre gruppi</b> chiamati <b>ordini</b> (o stati). Si nasceva in un ordine e quasi mai si cambiava.",
+  punti:[
+   "<b>1° stato: il Clero</b> (gli uomini di Chiesa).",
+   "<b>2° stato: la Nobiltà</b>.",
+   "<b>3° stato: il Terzo Stato</b>, cioè tutti gli altri: contadini, artigiani, commercianti, borghesi.",
+   "Clero e Nobiltà erano solo il <b>2%</b> della popolazione, ma avevano i <b>privilegi</b>: <b>non pagavano le tasse</b>, avevano quasi tutte le terre e le cariche più importanti.",
+   "Il Terzo Stato era il <b>98%</b>: lavorava, produceva tutto e <b>pagava tutte le tasse</b>, ma non aveva diritti politici.",
+   "Nel Clero c'erano grandi differenze: l'<b>alto clero</b> (vescovi, cardinali) era ricco, il <b>basso clero</b> (preti di campagna) era povero come i contadini.",
+   "Una <b>vignetta del 1789</b> mostra un contadino che porta sulla schiena un nobile e un prete: è il simbolo dell'ingiustizia.",
+   "Il pittore <b>William Hogarth</b>, nel quadro <i>The Tête à Tête</i> (1743), prende in giro i nobili inglesi: matrimoni combinati, debiti, vita disordinata."
+  ],
+  ricorda:"Pensa a <b>2 contro 98</b>. Il 2% ha i privilegi, il 98% paga tutto.",
+  gloss:[["Privilegio","Un vantaggio riservato a pochi (per esempio: non pagare le tasse)."],["Ordine / Stato","Un gruppo sociale in cui si entrava per nascita."]]
+},
+{ t:"Borghesia, burocrazia e contadini", ic:"🌾",
+  breve:"Dentro il Terzo Stato c'erano persone molto diverse: i ricchi <b>borghesi</b> delle città e i poveri <b>contadini</b> delle campagne.",
+  punti:[
+   "La <b>borghesia</b> viveva in città: mercanti, banchieri, armatori, padroni di fabbriche, avvocati, medici, artigiani.",
+   "Era forte soprattutto in <b>Inghilterra, Olanda e Francia</b> grazie ai commerci. In <b>Spagna</b> invece era in crisi.",
+   "I re crearono la <b>burocrazia</b>: funzionari <b>pagati dal re</b> per governare lo Stato. Così toglievano potere alla vecchia nobiltà.",
+   "In Francia nacque la <b>Nobiltà di Toga</b>: borghesi che compravano cariche pubbliche. Con la tassa <b>paulette</b> (<b>1604</b>, re Enrico IV) le cariche diventavano ereditarie.",
+   "I <b>contadini</b> erano circa <b>3 persone su 4</b> (75%).",
+   "Nell'<b>Europa occidentale</b> i contadini erano <b>liberi</b>: potevano spostarsi e fare lavori tessili a casa.",
+   "Nell'<b>Europa orientale</b> (Russia, Polonia) erano <b>servi della gleba</b>: legati alla terra del signore, non potevano cambiare lavoro né sposarsi senza il suo permesso."
+  ],
+  ricorda:"<b>Ovest = liberi</b>, <b>Est = servi</b>. La “toga” è il vestito dei giudici: Nobiltà di Toga = nobili per lavoro, non per nascita.",
+  gloss:[["Borghesia","Il ceto di chi vive in città (il “borgo”) di commercio e professioni."],["Servo della gleba","“Gleba” vuol dire zolla di terra: il contadino era legato alla terra."]]
+},
+{ t:"Prussia e Russia crescono, la Polonia cade", ic:"🗺️",
+  breve:"Nel Settecento due Stati dell'Est diventano potenti: la <b>Prussia</b> e la <b>Russia</b>. La <b>Polonia</b> invece si indebolisce fino a sparire.",
+  punti:[
+   "La <b>Prussia</b> nasce dal Ducato di <b>Brandeburgo</b> con la dinastia <b>Hohenzollern</b>. Diventa regno nel <b>1701</b> con <b>Federico I</b>.",
+   "<b>Federico Guglielmo I</b> crea un esercito di soldati prussiani (non più mercenari). <b>Federico II</b> lo rende il <b>più forte d'Europa</b>.",
+   "In <b>Russia</b> lo zar <b>Pietro il Grande</b> (dinastia Romanov) modernizza esercito, burocrazia ed economia chiamando tecnici dall'Occidente.",
+   "Nel <b>1703</b> fonda <b>San Pietroburgo</b> sul Mar Baltico: una “finestra” sull'Europa.",
+   "Come fecero? Diedero privilegi ai nobili, sfruttarono i contadini, crearono grandi eserciti.",
+   "La <b>Polonia</b> resta debole perché i re non riescono a controllare i nobili. Nel <b>1795</b> viene <b>spartita</b> tra Austria, Prussia e Russia.",
+   "I <b>matrimoni tra famiglie reali</b> servivano a fare alleanze e prendere territori senza guerre.",
+   "I <b>Borbone</b> regnano in <b>Francia, Spagna, Napoli e Parma</b>."
+  ],
+  ricorda:"<b>1701</b> nasce la Prussia, <b>1703</b> nasce San Pietroburgo (quasi uguali!). <b>1795</b> sparisce la Polonia.",
+  gloss:[["Dinastia","Una famiglia che regna di padre in figlio."],["Spartizione","Dividere un territorio tra più Stati."]]
+},
+{ t:"Le guerre di successione", ic:"⚔️",
+  breve:"Quando un re moriva <b>senza figli</b>, altre famiglie reali volevano il suo trono. Così scoppiavano le <b>guerre di successione</b>.",
+  punti:[
+   "<b>Spagnola (1702-1713)</b>: muore senza eredi <b>Carlo II d'Asburgo</b>. La Francia di Luigi XIV vuole la Spagna, l'Austria si oppone.",
+   "Paci di <b>Utrecht (1713)</b> e <b>Radstadt (1714)</b>: la Spagna va ai <b>Borbone</b> (Filippo V), ma i territori italiani (Milano, Napoli, Sardegna) vanno all'<b>Austria</b>.",
+   "<b>Polacca (1733-1735)</b>: con la <b>Pace di Vienna (1738)</b> inizia il declino della Polonia.",
+   "<b>Austriaca (1740-1748)</b>: molti re non accettano che sul trono salga una donna, <b>Maria Teresa d'Asburgo</b>.",
+   "<b>Pace di Aquisgrana (1748)</b>: Maria Teresa resta regina, ma perde la <b>Slesia</b>, che va alla <b>Prussia</b>.",
+   "A soffrire erano i <b>contadini</b>: arruolati a forza, raccolti distrutti, villaggi saccheggiati."
+  ],
+  ricorda:"<b>S-P-A</b> (come “spa”): <b>S</b>pagnola, <b>P</b>olacca, <b>A</b>ustriaca — sono già in ordine di tempo!",
+  gloss:[["Successione","Chi “succede”, cioè prende il posto del re morto."],["Slesia","Regione ricca di miniere, contesa tra Austria e Prussia."]]
+},
+{ t:"La Guerra dei Sette Anni", ic:"🌍",
+  breve:"Dal <b>1756</b> al <b>1763</b> si combatte la <b>Guerra dei Sette Anni</b>: è considerata il <b>primo conflitto mondiale</b>.",
+  punti:[
+   "<b>Causa:</b> Maria Teresa d'Austria vuole <b>riprendersi la Slesia</b> dalla Prussia di Federico II.",
+   "<b>Alleanze:</b> <b>Prussia + Inghilterra</b> contro <b>Austria + Francia + Russia</b>. Austria e Francia, nemiche da sempre, si alleano: è un <b>rovesciamento delle alleanze</b>.",
+   "È “mondiale” perché si combatte in <b>Europa</b> ma anche nelle colonie, in <b>America del Nord</b> e in <b>India</b>.",
+   "<b>Pace di Parigi (1763)</b>: l'<b>Inghilterra</b> prende <b>Canada e Louisiana</b> dalla Francia e la <b>Florida</b> dalla Spagna. Domina i mari.",
+   "La <b>Prussia</b> tiene la Slesia e diventa una grande potenza.",
+   "La <b>Francia</b> esce debole: ha speso tantissimo e ha perso le colonie.",
+   "Dopo il 1763 c'è un periodo di <b>equilibrio e pace</b> fino alla <b>Rivoluzione francese (1789)</b>."
+  ],
+  ricorda:"Il nome ti dà la risposta: <b>sette anni</b>, da 17<b>56</b> a 17<b>63</b>. Chi vince? L'<b>Inghilterra</b> (colonie) e la <b>Prussia</b> (Slesia).",
+  gloss:[["Colonia","Territorio lontano conquistato e governato da uno Stato europeo."],["Equilibrio","Nessuno Stato è più forte di tutti gli altri."]]
+}
+];
+
+const LINEA = [
+ ["1492","Inizio dell'età moderna (e dell'Antico Regime)"],
+ ["1604","La tassa “paulette” in Francia: nasce la Nobiltà di Toga"],
+ ["1701","Nasce il Regno di Prussia"],
+ ["1702-1713","Guerra di successione spagnola"],
+ ["1703","Pietro il Grande fonda San Pietroburgo"],
+ ["1713-1714","Paci di Utrecht e Radstadt"],
+ ["1733-1735","Guerra di successione polacca (pace di Vienna 1738)"],
+ ["1740-1748","Guerra di successione austriaca"],
+ ["1743","Hogarth dipinge “The Tête à Tête”"],
+ ["1748","Pace di Aquisgrana: la Slesia alla Prussia"],
+ ["1756-1763","Guerra dei Sette Anni"],
+ ["1763","Pace di Parigi: vince l'Inghilterra"],
+ ["1789","Rivoluzione francese: fine dell'Antico Regime"],
+ ["1795","La Polonia viene spartita e sparisce"]
+];
+
+/* [parte, domanda, risposta, parole chiave] */
+const DOMANDE = [
+[0,"Cos'è l'Antico Regime?","È il sistema politico, sociale ed economico dell'Europa dalla fine del Quattrocento (1492) al 1789. Aveva una società divisa in modo rigido e un re con potere assoluto.",["1492-1789","società rigida","re assoluto"]],
+[0,"Da chi e quando fu inventato il termine “Antico Regime”?","Lo usarono i rivoluzionari francesi nel 1789, in senso negativo, per indicare la società da abolire. Poi lo riprese lo storico Alexis de Tocqueville nell'Ottocento.",["rivoluzionari 1789","senso negativo","Tocqueville"]],
+[0,"Qual era la forma di governo più diffusa nel Settecento?","La monarchia assoluta: il re aveva tutti i poteri (fare le leggi, governare, giudicare) e non doveva rispettare nessuna legge o controllo.",["monarchia assoluta","tutti i poteri","nessun controllo"]],
+[0,"Come giustificavano i re il loro potere assoluto?","Con il diritto divino: dicevano che il loro potere veniva direttamente da Dio. I sudditi dovevano solo obbedire.",["diritto divino","da Dio","obbedire"]],
+[0,"Quali poteri aveva concretamente il re assoluto?","Faceva le leggi, amministrava la giustizia, guidava l'esercito, nominava i funzionari e decideva le tasse come voleva.",["leggi","giustizia ed esercito","tasse"]],
+[0,"Quali erano le eccezioni all'assolutismo in Europa?","L'Inghilterra (monarchia parlamentare), i Paesi Bassi, la Repubblica di Venezia (e la Svizzera): qui il potere del re era limitato o non c'era un re.",["Inghilterra","Paesi Bassi","Venezia"]],
+[0,"Quali Paesi erano i modelli di monarchia assoluta?","La Francia di Luigi XIV, il Re Sole, e l'Impero austriaco della dinastia degli Asburgo.",["Luigi XIV","Re Sole","Asburgo"]],
+[1,"Come era divisa la società dell'Antico Regime?","In tre ordini (o stati): il Clero (primo stato), la Nobiltà (secondo stato) e il Terzo Stato (tutto il resto della popolazione).",["Clero","Nobiltà","Terzo Stato"]],
+[1,"Quali erano i ceti privilegiati e quanti erano?","Il Clero e la Nobiltà. Erano solo il 2% della popolazione, ma avevano enormi ricchezze e terre.",["Clero e Nobiltà","2%","ricchezze"]],
+[1,"Quali privilegi avevano Clero e Nobiltà?","Non pagavano le tasse dello Stato, possedevano la maggior parte delle terre e avevano le cariche più importanti (politiche, militari, religiose).",["niente tasse","terre","cariche"]],
+[1,"Chi faceva parte del Terzo Stato?","Tutti quelli che non erano nobili o uomini di Chiesa: contadini, artigiani, commercianti, borghesi e professionisti. Erano circa il 98%.",["98%","contadini","borghesi"]],
+[1,"Quale peso gravava sul Terzo Stato?","Pagava da solo tutte le tasse dello Stato, produceva tutti i beni con il suo lavoro e non aveva nessun diritto politico.",["tutte le tasse","lavoro","nessun diritto"]],
+[1,"Cosa rappresenta la vignetta del contadino con il nobile e il prete sulla schiena?","L'ingiustizia sociale dell'Antico Regime: il contadino, con il lavoro e le tasse, mantiene i due ordini privilegiati.",["vignetta 1789","ingiustizia","contadino mantiene"]],
+[1,"Quali differenze c'erano all'interno del Clero?","L'alto clero (vescovi, cardinali) era ricco e potente; il basso clero (preti di campagna, monaci) era spesso povero come i contadini.",["alto clero ricco","basso clero povero","preti di campagna"]],
+[1,"Cosa critica William Hogarth nel quadro “The Tête à Tête”?","Prende in giro la nobiltà inglese: mostra un matrimonio combinato tra ricchi, con disordine, debiti e vita immorale.",["Hogarth 1743","matrimonio combinato","nobili decadenti"]],
+[2,"Da chi era formata la borghesia del Settecento?","Da uomini d'affari, armatori, mercanti, padroni di fabbriche, banchieri, avvocati, medici e artigiani che vivevano in città.",["città","mercanti e banchieri","professionisti"]],
+[2,"In quali Paesi la borghesia era più sviluppata?","In Inghilterra, Olanda e Francia, grazie ai commerci con le colonie e all'industria. In Spagna invece era in crisi.",["Inghilterra","Olanda e Francia","commerci"]],
+[2,"Cos'è la burocrazia e perché i re la vollero?","È l'insieme dei funzionari pagati dal re per amministrare lo Stato. Serviva ai re per togliere potere politico alla vecchia nobiltà.",["funzionari","pagati dal re","meno potere ai nobili"]],
+[2,"Cos'era la Nobiltà di Toga in Francia?","Erano borghesi che compravano cariche pubbliche dal re. Pagando la tassa “paulette” (1604) le cariche diventavano ereditarie.",["borghesi","cariche comprate","paulette 1604"]],
+[2,"Quanta parte della popolazione erano i contadini?","La grande maggioranza: circa tre quarti, cioè il 75% degli abitanti d'Europa.",["tre quarti","75%","maggioranza"]],
+[2,"Com'erano i contadini nell'Europa occidentale?","Erano uomini liberi: potevano cambiare casa, fare lavori tessili a domicilio e lavorare come braccianti o piccoli proprietari.",["liberi","lavoro a domicilio","braccianti"]],
+[2,"Com'erano i contadini nell'Europa orientale?","Erano servi della gleba: non potevano lasciare la terra del signore, né cambiare lavoro, né sposarsi senza il suo permesso.",["servi della gleba","legati alla terra","permesso del nobile"]],
+[3,"Come nacque il Regno di Prussia?","Dall'unione del Ducato di Brandeburgo con altri territori tedeschi, sotto la dinastia Hohenzollern. Diventò regno nel 1701 con Federico I.",["Brandeburgo","Hohenzollern","1701"]],
+[3,"Quali riforme resero la Prussia una potenza militare?","Federico Guglielmo I arruolò soldati prussiani invece dei mercenari. Federico II migliorò l'addestramento e rese l'esercito il più forte d'Europa.",["Federico Guglielmo I","no mercenari","Federico II"]],
+[3,"Chi modernizzò la Russia e come?","Lo zar Pietro il Grande (Romanov). Riorganizzò esercito, burocrazia ed economia, chiamò tecnici dall'Occidente e rese lo Stato più laico.",["Pietro il Grande","Romanov","tecnici occidentali"]],
+[3,"Perché fu fondata San Pietroburgo nel 1703?","Pietro il Grande la volle come nuova capitale sul Mar Baltico, per aprire la Russia ai commerci e alla cultura dell'Europa occidentale.",["1703","Mar Baltico","aprirsi all'Europa"]],
+[3,"Quali problemi avevano all'inizio Prussia e Russia?","Erano lontane dal centro dell'Europa, avevano una società arretrata con contadini poverissimi e un potere centrale debole.",["lontananza","arretratezza","potere debole"]],
+[3,"Come rafforzarono lo Stato i re di Prussia e Russia?","Diedero privilegi ai nobili per averli fedeli, sfruttarono il lavoro dei contadini, crearono grandi eserciti e svilupparono l'economia.",["privilegi ai nobili","eserciti","economia"]],
+[3,"Perché la Polonia andò in decadenza?","I re polacchi non riuscirono mai a controllare la nobiltà. Lo Stato restò debole e nel 1795 fu diviso tra Austria, Prussia e Russia.",["nobili troppo forti","Stato debole","spartita 1795"]],
+[3,"A cosa servivano i matrimoni tra famiglie reali?","A creare alleanze tra Stati, allargare i territori senza guerre e mettere propri parenti sui troni rimasti liberi.",["alleanze","territori senza guerra","troni"]],
+[3,"Quale dinastia regnò su molti troni europei?","I Borbone: oltre alla Francia governarono la Spagna, il Regno di Napoli e il Ducato di Parma.",["Borbone","Spagna e Napoli","Parma"]],
+[4,"Perché scoppiavano le guerre di successione?","Quando un re moriva senza figli, altre famiglie reali imparentate volevano il suo trono per allargare i loro territori con le armi.",["re senza eredi","trono conteso","territori"]],
+[4,"Quali furono le tre guerre di successione del Settecento?","Spagnola (1702-1713), polacca (1733-1735) e austriaca (1740-1748).",["spagnola 1702","polacca 1733","austriaca 1740"]],
+[4,"Cosa causò la guerra di successione spagnola?","La morte senza eredi di Carlo II d'Asburgo: la Francia di Luigi XIV volle la corona spagnola, contro l'Austria e altre potenze.",["Carlo II","Luigi XIV","contro l'Austria"]],
+[4,"Cosa causò la guerra di successione austriaca?","La salita al trono di Maria Teresa d'Asburgo: molti re non accettavano una donna e volevano i suoi territori.",["Maria Teresa","una donna","territori"]],
+[4,"Cosa stabilirono le paci di Utrecht (1713) e Radstadt (1714)?","La Spagna andò ai Borbone; i territori italiani della Spagna (Milano, Sardegna, Napoli) passarono all'Austria.",["Spagna ai Borbone","Italia all'Austria","Milano"]],
+[4,"Cosa stabilì la Pace di Vienna (1738)?","Chiuse la guerra di successione polacca e segnò l'inizio dell'indebolimento della Polonia, sotto l'influenza di Austria e Russia.",["fine guerra polacca","Polonia debole","Austria e Russia"]],
+[4,"Cosa stabilì la Pace di Aquisgrana (1748)?","Confermò Maria Teresa sul trono d'Austria, ma l'Austria dovette lasciare la Slesia, ricca di miniere, alla Prussia.",["Maria Teresa resta","Slesia","alla Prussia"]],
+[4,"Che conseguenze ebbero le guerre sui contadini?","Terribili: venivano arruolati a forza, i raccolti erano distrutti e i villaggi saccheggiati dagli eserciti.",["arruolati","raccolti distrutti","saccheggi"]],
+[5,"Quando ci fu la Guerra dei Sette Anni e chi si scontrò?","Dal 1756 al 1763. Da una parte Prussia e Inghilterra, dall'altra Austria, Francia e Russia.",["1756-1763","Prussia + Inghilterra","Austria, Francia, Russia"]],
+[5,"Perché la Guerra dei Sette Anni è il primo conflitto mondiale?","Perché si combatté sia in Europa sia nelle colonie, in America del Nord e in India, tra Gran Bretagna e Francia.",["Europa","America del Nord","India"]],
+[5,"Qual fu la causa della Guerra dei Sette Anni?","Maria Teresa d'Austria voleva riprendersi la Slesia, che era stata conquistata da Federico II di Prussia.",["Maria Teresa","Slesia","Federico II"]],
+[5,"Perché la Francia uscì indebolita dalle guerre del Settecento?","Partecipò a tutte le guerre senza guadagnare territori, svuotò le casse dello Stato e perse le colonie a favore dell'Inghilterra.",["nessun guadagno","casse vuote","colonie perse"]],
+[5,"Cosa ottenne la Gran Bretagna con la Pace di Parigi (1763)?","Le colonie francesi in Canada e Louisiana, la Florida spagnola e il dominio dei mari e dei commerci nel mondo.",["Canada","Louisiana e Florida","dominio dei mari"]],
+[5,"Cosa ottenne la Prussia dopo la Guerra dei Sette Anni?","Riuscì a difendersi da grandi potenze e tenne per sempre la Slesia, diventando una potenza militare.",["si difende","tiene la Slesia","potenza"]],
+[5,"Che situazione ci fu in Europa dopo il 1763?","Un periodo di pace e stabilità basato sull'equilibrio tra le grandi potenze, fino alla Rivoluzione francese del 1789.",["pace","equilibrio","fino al 1789"]]
+];
+
+/* [domanda, opzioni, indice giusto, spiegazione] */
+const QUIZ = [
+["In che anno finisce l'Antico Regime?",["1492","1713","1789","1848"],2,"Nel 1789 scoppia la Rivoluzione francese, che abolisce l'Antico Regime."],
+["Chi ha inventato il termine “Antico Regime”?",["I re di Francia","I rivoluzionari francesi","Il Papa","Pietro il Grande"],1,"Lo usarono i rivoluzionari nel 1789, in senso negativo."],
+["Da dove diceva di ricevere il potere il re assoluto?",["Dal popolo","Dal Parlamento","Da Dio","Dall'esercito"],2,"È il principio del diritto divino."],
+["Quale Paese NON era una monarchia assoluta?",["Francia","Austria","Inghilterra","Russia"],2,"L'Inghilterra era una monarchia parlamentare."],
+["Chi era il “Re Sole”?",["Luigi XIV","Federico II","Carlo II","Pietro il Grande"],0,"Luigi XIV di Francia, il modello del re assoluto."],
+["Quanta parte della popolazione erano Clero e Nobiltà?",["50%","25%","10%","2%"],3,"Solo il 2%, ma con enormi privilegi."],
+["Chi pagava le tasse nell'Antico Regime?",["Il Clero","La Nobiltà","Il Terzo Stato","Tutti allo stesso modo"],2,"Il Terzo Stato pagava da solo tutte le tasse."],
+["Chi apparteneva al basso clero?",["Cardinali","Vescovi","Preti di campagna","Re"],2,"I preti di campagna e i monaci, spesso poveri."],
+["Cosa mostra la vignetta del 1789?",["Un re a cavallo","Un contadino che porta sulla schiena un nobile e un prete","Una battaglia navale","Il Parlamento inglese"],1,"È il simbolo dell'ingiustizia sociale."],
+["Chi dipinse “The Tête à Tête”?",["Leonardo","William Hogarth","Tocqueville","Luigi XIV"],1,"William Hogarth, nel 1743, per criticare i nobili inglesi."],
+["Cos'era la Nobiltà di Toga?",["Nobili antichi per nascita","Borghesi che compravano cariche pubbliche","Soldati del re","Preti ricchi"],1,"Con la tassa paulette (1604) le cariche diventavano ereditarie."],
+["Quanti erano circa i contadini in Europa?",["Un quarto","La metà","Tre quarti","Il 2%"],2,"Circa il 75% della popolazione."],
+["Cos'era un servo della gleba?",["Un soldato mercenario","Un contadino legato alla terra del signore","Un prete di campagna","Un mercante"],1,"Succedeva nell'Europa orientale, come Russia e Polonia."],
+["Dove la borghesia era più sviluppata?",["Spagna e Polonia","Russia e Prussia","Inghilterra, Olanda e Francia","Venezia e Svizzera"],2,"Grazie ai commerci con le colonie e all'industria."],
+["In che anno nasce il Regno di Prussia?",["1701","1789","1604","1763"],0,"Nel 1701, con Federico I della dinastia Hohenzollern."],
+["Chi fondò San Pietroburgo?",["Federico II","Maria Teresa","Pietro il Grande","Luigi XIV"],2,"Nel 1703, sul Mar Baltico."],
+["Perché la Polonia diventò debole?",["Perché aveva troppi soldati","Perché i re non riuscirono a controllare i nobili","Perché era un'isola","Perché vinse troppe guerre"],1,"Nel 1795 fu spartita tra Austria, Prussia e Russia."],
+["Quale famiglia regnava in Francia, Spagna, Napoli e Parma?",["Asburgo","Romanov","Borbone","Hohenzollern"],2,"I Borbone."],
+["Quando scoppiava una guerra di successione?",["Quando un re moriva senza eredi","Quando il popolo si ribellava","Quando si scopriva una colonia","Quando c'era una carestia"],0,"Altre famiglie volevano il trono rimasto libero."],
+["Qual è l'ordine giusto delle guerre di successione?",["Austriaca, Spagnola, Polacca","Spagnola, Polacca, Austriaca","Polacca, Austriaca, Spagnola","Spagnola, Austriaca, Polacca"],1,"Ricorda S-P-A: Spagnola, Polacca, Austriaca."],
+["Perché scoppiò la guerra di successione austriaca?",["Morì Luigi XIV","Salì al trono una donna, Maria Teresa","La Russia attaccò Vienna","Nacque la Prussia"],1,"Molti re non accettavano un'erede donna."],
+["Con la Pace di Aquisgrana (1748) la Slesia va…",["all'Austria","alla Francia","alla Prussia","alla Polonia"],2,"L'Austria perde la Slesia, che va alla Prussia."],
+["Quanto durò la Guerra dei Sette Anni?",["1702-1713","1740-1748","1756-1763","1789-1795"],2,"Sette anni: dal 1756 al 1763."],
+["Perché la Guerra dei Sette Anni è detta “mondiale”?",["Si combatté solo fuori dall'Europa","Si combatté in Europa, America del Nord e India","Durò moltissimo","Parteciparono più di cento Stati"],1,"Si combatté anche nelle colonie."],
+["Chi vinse di più con la Pace di Parigi (1763)?",["La Francia","La Spagna","L'Inghilterra","L'Austria"],2,"Prese Canada, Louisiana e Florida e dominò i mari."],
+["Chi era alleato della Prussia nella Guerra dei Sette Anni?",["Francia","Russia","Austria","Inghilterra"],3,"Prussia e Inghilterra contro Austria, Francia e Russia."],
+["Chi riprese il termine “Antico Regime” nell'Ottocento?",["Napoleone","Alexis de Tocqueville","Federico II","William Hogarth"],1,"Lo storico francese Alexis de Tocqueville."],
+["Quale guerra fece iniziare il declino della Polonia?",["Guerra dei Sette Anni","Guerra di successione spagnola","Guerra di successione polacca","Guerra di successione austriaca"],2,"Finita con la Pace di Vienna del 1738."],
+["Chi rese l'esercito prussiano il più forte d'Europa?",["Federico II","Pietro il Grande","Carlo II","Enrico IV"],0,"Federico II rafforzò l'addestramento dei soldati."],
+["Con le paci di Utrecht e Radstadt, Milano passa…",["alla Francia","alla Spagna","all'Austria","alla Prussia"],2,"I domini italiani della Spagna passano all'Austria."]
+];
+
+const FRASI_AVVIO = [
+ ["Antico Regime","«Con il termine Antico Regime si intende il sistema politico e sociale dell'Europa dal 1492 al 1789…»"],
+ ["Re assoluto","«Nel Settecento la forma di governo più diffusa era la monarchia assoluta, cioè…»"],
+ ["Tre ordini","«La società era divisa in tre ordini: il Clero, la Nobiltà e il Terzo Stato. I primi due…»"],
+ ["Borghesia","«La borghesia era il ceto delle città, formato da mercanti, banchieri e professionisti…»"],
+ ["Contadini","«I contadini erano circa i tre quarti della popolazione, ma la loro condizione era diversa tra Ovest ed Est…»"],
+ ["Prussia e Russia","«Nel Settecento due Stati dell'Est diventarono grandi potenze: la Prussia e la Russia…»"],
+ ["Polonia","«La Polonia, al contrario, si indebolì perché i re non riuscirono a controllare i nobili…»"],
+ ["Guerre di successione","«Le guerre di successione scoppiavano quando un re moriva senza eredi. Nel Settecento ce ne furono tre…»"],
+ ["Sette Anni","«La Guerra dei Sette Anni, dal 1756 al 1763, è considerata il primo conflitto mondiale perché…»"]
+];
+
+const COLLEGA = [
+ "«Questo si collega al fatto che…»",
+ "«Per fare un esempio…»",
+ "«La causa principale fu…, e la conseguenza fu…»",
+ "«In conclusione, possiamo dire che…»"
+];
+
+const INCORAGGIA = [
+ "Stai andando benissimo. Ogni ripasso conta! 💪",
+ "Non serve essere perfetti: serve essere chiari.",
+ "Hai già studiato più di quanto pensi.",
+ "Un errore oggi è una risposta giusta domani.",
+ "Respira. Tu sai queste cose.",
+ "Parla piano: chi parla piano sembra sicuro.",
+ "Il professore vuole sentire cosa sai, non cosa non sai.",
+ "Una pausa di 3 secondi non è un errore: è pensare."
+];
+
+/* ================= STATO (salvato nel browser) ================= */
+const DEF = {lez:{}, known:{}, review:{}, qbPct:0, prove:0, days:[]};
+const S = Object.assign({}, DEF, load() || {});
+function load(){ try{ return JSON.parse(localStorage.getItem("ar_state_v2")) || JSON.parse(localStorage.getItem("ar_state")) }catch(e){ return null } }
+function save(){ try{ localStorage.setItem("ar_state_v2", JSON.stringify(S)) }catch(e){} }
+function today(){ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate() }
+function studied(){ const t=today(); if(!S.days.includes(t)){ S.days.push(t); if(S.days.length>60) S.days.shift(); save() } }
+function pref(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v) }catch(e){ return null } }
+
+if(pref("ar_big")==="1") document.body.classList.add("big");
+const darkPref = pref("ar_dark");
+if(darkPref==="1" || (darkPref===null && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches)) document.body.classList.add("dark");
+
+const $ = s => document.querySelector(s);
+const app = $("#app");
+function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"),2300) }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]} return a }
+function strip(h){ const d=document.createElement("div"); d.innerHTML=h; return d.textContent }
+
+/* --- Lettura ad alta voce --- */
+let voiceIt=null;
+function pickVoice(){ try{ const v=speechSynthesis.getVoices(); voiceIt=v.find(x=>/^it/i.test(x.lang))||null }catch(e){} }
+try{ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice }catch(e){}
+function speak(text){
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(strip(text).replace(/(\d{4})-(\d{4})/g,"$1, $2"));
+    u.lang="it-IT"; u.rate=0.95; if(voiceIt) u.voice=voiceIt;
+    speechSynthesis.speak(u);
+  }catch(e){ toast("La lettura vocale non è disponibile su questo dispositivo") }
+}
+function shush(){ try{ speechSynthesis.cancel() }catch(e){} }
+const SPK = (id) => `<button class="spk" onclick="speak(document.getElementById('${id}').innerHTML)" aria-label="Ascolta">🔊 Ascolta</button>`;
+
+$("#bigBtn").onclick=()=>{ document.body.classList.toggle("big"); pref("ar_big",document.body.classList.contains("big")?"1":"0") };
+$("#darkBtn").onclick=()=>{ document.body.classList.toggle("dark"); pref("ar_dark",document.body.classList.contains("dark")?"1":"0") };
+
+/* ================= NAVIGAZIONE ================= */
+const VIEWS = {home, impara, carte, quiz, prova, calma};
+let timers=[];
+function clearTimers(){ timers.forEach(t=>{clearInterval(t);clearTimeout(t)}); timers=[] }
+function go(v){ if(location.hash!=="#"+v) location.hash=v; else render() }
+function curView(){ const v=(location.hash||"#home").slice(1).split("-")[0]; return VIEWS[v]?v:"home" }
+function render(){
+  clearTimers(); shush();
+  const v=curView();
+  document.querySelectorAll("#tabs button").forEach(b=>{ const on=b.dataset.v===v; b.classList.toggle("on",on); b.setAttribute("aria-current",on?"page":"false") });
+  VIEWS[v]();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ if(b.dataset.v==="carte") cardFilter="smart"; go(b.dataset.v) });
+window.addEventListener("hashchange",render);
+
+/* ================= INIZIO ================= */
+function progress(){
+  const lez=Object.keys(S.lez).length, kn=Object.keys(S.known).length;
+  return {lez, kn, tot: Math.round((lez/6)*25 + (kn/DOMANDE.length)*55 + S.qbPct*0.2)};
+}
+function partStats(p){ const ids=DOMANDE.map((d,i)=>i).filter(i=>DOMANDE[i][0]===p); return [ids.filter(i=>S.known[i]).length, ids.length] }
+function home(){
+  const p=progress(), rev=Object.keys(S.review).length;
+  const titolo = p.tot<10?"Iniziamo insieme 👋":p.tot<50?"Ottimo, continua così!":p.tot<85?"Ci sei quasi! 🚀":"Sei pronto per l'interrogazione! 🎉";
+  let consiglio, azione, label;
+  if(p.lez<6){ consiglio=`Leggi la lezione ${p.lez+1}: bastano 3 minuti.`; azione=`go('impara-${firstUnread()}')`; label="📖 Leggi la prossima lezione" }
+  else if(rev>0){ consiglio=`Hai ${rev} domande da ripassare. Togliamole di mezzo!`; azione="cardFilter='rev';go('carte')"; label="🃏 Ripassa le difficili" }
+  else if(p.kn<DOMANDE.length){ consiglio="Gira le carte che non sai ancora."; azione="cardFilter='smart';go('carte')"; label="🃏 Ripasso intelligente" }
+  else { consiglio="Sai tutto! Ora prova un'interrogazione completa."; azione="go('prova')"; label="🎤 Interrogazione completa" }
+
+  app.innerHTML=`
+  <div class="card hero">
+    <div class="head-row"><h2 style="color:#fff">${titolo}</h2>${S.days.length?`<span class="pill">🔥 ${S.days.length} ${S.days.length===1?"giorno":"giorni"}</span>`:""}</div>
+    <div class="bar" style="background:rgba(255,255,255,.25)"><i style="width:${p.tot}%;background:#fff"></i></div>
+    <p class="muted" style="margin-top:8px">Preparazione: <b>${p.tot}%</b></p>
+    <p style="margin:.6rem 0 .8rem"><b>Il consiglio di oggi:</b> ${consiglio}</p>
+    <button class="btn full" style="background:#fff;color:#2B4C7E" onclick="${azione}">${label}</button>
+  </div>
+
+  <div class="grid">
+    <button class="tile" onclick="go('impara')"><span class="ic">📖</span><b>Impara</b><span>${p.lez}/6 lezioni lette</span></button>
+    <button class="tile" onclick="cardFilter='smart';go('carte')"><span class="ic">🃏</span><b>Ripassa</b><span>${p.kn}/${DOMANDE.length} domande sapute</span></button>
+    <button class="tile" onclick="go('quiz')"><span class="ic">✅</span><b>Quiz</b><span>Record: ${S.qbPct}%</span></button>
+    <button class="tile" onclick="go('prova')"><span class="ic">🎤</span><b>Prova l'orale</b><span>${S.prove||0} risposte fatte</span></button>
+  </div>
+
+  <div class="card parts">
+    <h3>Come vai in ogni parte</h3>
+    ${PARTI.map((n,i)=>{ const [k,t]=partStats(i); return `<div class="pr"><div><b>${i+1}.</b> ${n}<div class="bar"><i style="width:${k/t*100}%"></i></div></div><button class="btn alt small" onclick="cardFilter='${i}';go('carte')">${k}/${t}</button></div>` }).join("")}
+  </div>
+
+  <div class="info"><b>Come usare l'app, in 4 passi:</b>
+    <ol style="margin:.4rem 0 0;padding-left:1.2rem">
+      <li><b>Impara</b>: leggi (o ascolta 🔊) le 6 lezioni brevi.</li>
+      <li><b>Ripassa</b>: gira le carte con le domande del professore.</li>
+      <li><b>Quiz</b>: mettiti alla prova con le risposte multiple.</li>
+      <li><b>Prova</b>: simula l'interrogazione ad alta voce.</li>
+    </ol>
+  </div>
+  <button class="btn alt full" onclick="go('calma')">💙 Agitato? Trova la calma prima dell'interrogazione</button>
+  <p class="muted" style="text-align:center;margin-top:18px">${INCORAGGIA[Math.floor(Math.random()*INCORAGGIA.length)]}</p>
+  ${p.tot>0?`<p style="text-align:center"><button class="btn alt small" id="rst">Ricomincia da zero</button></p>`:""}`;
+  const r=$("#rst"); if(r) r.onclick=()=>{ if(r.dataset.ok){ Object.assign(S,JSON.parse(JSON.stringify(DEF))); save(); toast("Progressi azzerati"); home() } else { r.dataset.ok=1; r.textContent="Sicuro? Tocca di nuovo per cancellare tutto" } };
+}
+function firstUnread(){ for(let i=0;i<6;i++) if(!S.lez[i]) return i; return 0 }
+
+/* ================= IMPARA ================= */
+function impara(){
+  const h=location.hash.split("-")[1];
+  if(h==="lampo") return lampo();
+  if(h!==undefined && LEZIONI[+h]) return lezione(+h);
+  app.innerHTML=`
+  <h2 style="margin-top:8px">📖 Impara</h2>
+  <p class="muted">Leggi una lezione alla volta. Bastano 3 minuti ciascuna. Puoi anche ascoltarle 🔊.</p>
+  <div class="lesson-list">
+    ${LEZIONI.map((l,i)=>`<button onclick="go('impara-${i}')"><span class="num ${S.lez[i]?"done":""}">${S.lez[i]?"✓":i+1}</span><span><b>${l.ic} ${l.t}</b><br><span class="muted">${S.lez[i]?"Letta":"Da leggere"}</span></span></button>`).join("")}
+  </div>
+  <button class="btn gold full" onclick="go('impara-lampo')">⚡ Ripasso lampo (5 minuti prima dell'interrogazione)</button>
+  <div class="card">
+    <div class="tag">Da tenere a mente</div>
+    <h3>🕰️ Linea del tempo</h3>
+    <div class="timeline">${LINEA.map(([d,t])=>`<div class="tl"><b>${d}</b> — ${t}</div>`).join("")}</div>
+  </div>`;
+}
+function lezione(i){
+  const l=LEZIONI[i];
+  app.innerHTML=`
+  <button class="btn alt small" style="margin-top:6px" onclick="go('impara')">← Tutte le lezioni</button>
+  <div class="card">
+    <div class="head-row"><div class="tag">Lezione ${i+1} di 6</div>${SPK("lezTxt")}</div>
+    <div id="lezTxt">
+      <h2>${l.ic} ${l.t}</h2>
+      <div class="info"><b>In breve:</b> ${l.breve}</div>
+      <h3 style="margin-top:14px">I punti importanti</h3>
+      <ul class="dots">${l.punti.map(p=>`<li>${p}</li>`).join("")}</ul>
+      <div class="ricorda">💡 <b>Ricorda:</b> ${l.ricorda}</div>
+    </div>
+    <h3>Parole difficili</h3>
+    ${l.gloss.map(([w,d])=>`<p><b>${w}</b>: ${d}</p>`).join("")}
+  </div>
+  <div class="row">
+    <button class="btn green" onclick="fineLez(${i})">✓ Ho capito${i<5?", avanti":""}</button>
+    <button class="btn alt" onclick="cardFilter='${i}';go('carte')">🃏 Ripassa questa parte</button>
+  </div>`;
+}
+function fineLez(i){ S.lez[i]=1; studied(); save(); toast(i<5?"Lezione completata! 🎉":"Hai letto tutte le lezioni! 🏆"); go(i<5?"impara-"+(i+1):"impara") }
+function lampo(){
+  app.innerHTML=`
+  <button class="btn alt small" style="margin-top:6px" onclick="go('impara')">← Indietro</button>
+  <div class="card">
+    <div class="head-row"><div class="tag">⚡ Ripasso lampo</div>${SPK("lampoTxt")}</div>
+    <div id="lampoTxt">
+      <h2>Tutto l'Antico Regime in 5 minuti</h2>
+      ${LEZIONI.map((l,i)=>`<div class="ricorda"><b>${i+1}. ${l.t}</b><br>${l.ricorda}</div>`).join("")}
+      <h3 style="margin-top:14px">Le date da sapere</h3>
+      <ul class="dots">${LINEA.map(([d,t])=>`<li><b>${d}</b>: ${t}</li>`).join("")}</ul>
+    </div>
+  </div>
+  <button class="btn full" onclick="go('calma')">💙 E ora: 1 minuto di respiro</button>`;
+}
+
+/* ================= RIPASSA (carte) ================= */
+let cardFilter="smart", deck=[], ci=0, sessOk=0, sessNo=0;
+function buildDeck(){
+  let d=DOMANDE.map((x,i)=>i);
+  if(cardFilter==="smart"){
+    // prima le difficili, poi quelle nuove, infine quelle già sapute
+    const rev=shuffle(d.filter(i=>S.review[i])), nuove=shuffle(d.filter(i=>!S.review[i]&&!S.known[i])), sapute=shuffle(d.filter(i=>S.known[i]));
+    d=rev.concat(nuove, sapute.slice(0, Math.max(5, 15-rev.length-nuove.length)));
+    d=d.slice(0, Math.max(15, rev.length));
+  }
+  else if(cardFilter==="rev") d=shuffle(d.filter(i=>S.review[i]));
+  else if(cardFilter==="new") d=shuffle(d.filter(i=>!S.known[i]));
+  else if(cardFilter==="all") d=shuffle(d);
+  else d=shuffle(d.filter(i=>DOMANDE[i][0]===+cardFilter));
+  deck=d; ci=0; sessOk=0; sessNo=0;
+}
+function carte(){
+  app.innerHTML=`
+  <h2 style="margin-top:8px">🃏 Ripassa con le carte</h2>
+  <p class="muted">Leggi la domanda, rispondi <b>ad alta voce</b>, poi tocca la carta per vedere la risposta.</p>
+  <select id="flt" aria-label="Scegli le carte">
+    <option value="smart">⭐ Ripasso intelligente (consigliato)</option>
+    <option value="rev">Solo quelle da ripassare (${Object.keys(S.review).length})</option>
+    <option value="new">Solo quelle che non so ancora</option>
+    <option value="all">Tutte le domande (${DOMANDE.length})</option>
+    ${PARTI.map((p,i)=>`<option value="${i}">Parte ${i+1}: ${p}</option>`).join("")}
+  </select>
+  <div id="cardBox"></div>
+  <p class="muted" style="text-align:center;margin-top:10px">Da computer: <b>spazio</b> per girare, <b>→</b> la so, <b>←</b> da ripassare.</p>`;
+  $("#flt").value=cardFilter;
+  $("#flt").onchange=e=>{cardFilter=e.target.value;buildDeck();drawCard()};
+  buildDeck(); drawCard();
+}
+function drawCard(){
+  shush();
+  const box=$("#cardBox");
+  if(!deck.length){ box.innerHTML=`<div class="card" style="text-align:center"><h3>Nessuna carta qui 🎉</h3><p class="muted">${cardFilter==="rev"?"Non hai domande da ripassare.":cardFilter==="new"?"Le sai tutte! Bravissimo.":""}</p><button class="btn" onclick="cardFilter='smart';carte()">Ripasso intelligente</button></div>`; return }
+  if(ci>=deck.length){
+    const kn=Object.keys(S.known).length;
+    box.innerHTML=`<div class="card" style="text-align:center"><h2>Mazzo finito! 👏</h2><p>In questo giro: <b style="color:var(--green)">${sessOk} sapute</b> e <b style="color:var(--red)">${sessNo} da ripassare</b>.</p><p>In totale sai <b>${kn}</b> domande su ${DOMANDE.length}.</p><div class="row"><button class="btn" onclick="buildDeck();drawCard()">Un altro giro</button>${Object.keys(S.review).length?`<button class="btn alt" onclick="cardFilter='rev';carte()">Ripassa le difficili</button>`:""}</div></div>`;
+    return;
+  }
+  const n=deck[ci], [p,q,a,k]=DOMANDE[n];
+  box.innerHTML=`
+  <div class="dots-step" style="margin-top:14px"><i class="on" style="flex:${ci+1}"></i><i style="flex:${deck.length-ci-1}"></i></div>
+  <p class="muted" style="margin:0">Carta ${ci+1} di ${deck.length} · Parte ${p+1}: ${PARTI[p]} ${S.review[n]?"· <b style='color:var(--red)'>difficile</b>":S.known[n]?"· <b style='color:var(--green)'>✓ la sai</b>":""}</p>
+  <div class="flip"><div class="fc" id="fc" role="button" tabindex="0" aria-label="Carta: tocca per girare">
+    <div class="face"><div class="tag">Domanda</div><div class="q">${q}</div><div class="hint">👆 Tocca per vedere la risposta</div></div>
+    <div class="face back"><div class="tag">Risposta</div><p style="font-size:1.05rem">${a}</p><div>${k.map(x=>`<span class="kw">${x}</span>`).join("")}</div></div>
+  </div></div>
+  <div class="row" style="margin-bottom:10px"><button class="spk" onclick="speak(${JSON.stringify(q).replace(/"/g,'&quot;')})">🔊 Domanda</button><button class="spk" onclick="speak(${JSON.stringify(a).replace(/"/g,'&quot;')})">🔊 Risposta</button></div>
+  <div class="row" id="rate" style="visibility:hidden">
+    <button class="btn red" onclick="rate(0)">😕 Da ripassare</button>
+    <button class="btn green" onclick="rate(1)">😊 La so!</button>
+  </div>`;
+  $("#fc").onclick=flip;
+}
+function flip(){ const f=$("#fc"); if(!f) return; f.classList.toggle("on"); $("#rate").style.visibility="visible" }
+function rate(ok){
+  const n=deck[ci]; if(n===undefined) return;
+  if(ok){ S.known[n]=1; delete S.review[n]; sessOk++ } else { S.review[n]=1; delete S.known[n]; sessNo++ }
+  studied(); save(); ci++; drawCard();
+}
+document.addEventListener("keydown",e=>{
+  if(curView()!=="carte" || !$("#fc") || /SELECT|INPUT/.test(document.activeElement.tagName)) return;
+  if(e.key===" "||e.key==="Enter"){ e.preventDefault(); flip() }
+  else if($("#rate").style.visibility==="visible"){ if(e.key==="ArrowRight") rate(1); if(e.key==="ArrowLeft") rate(0) }
+});
+
+/* ================= QUIZ ================= */
+let qz=[], qi=0, score=0, errs=[];
+function quiz(){
+  app.innerHTML=`<h2 style="margin-top:8px">✅ Quiz</h2><p class="muted">10 domande a caso su ${QUIZ.length}. Nessuna fretta: non c'è il tempo.</p><div id="qBox"></div>`;
+  startQuiz();
+}
+function startQuiz(){ qz=shuffle(QUIZ.map((x,i)=>i)).slice(0,10); qi=0; score=0; errs=[]; drawQ() }
+function drawQ(){
+  const box=$("#qBox");
+  if(qi>=qz.length){
+    const pct=Math.round(score/qz.length*100), rec=pct>S.qbPct; if(rec) S.qbPct=pct; studied(); save();
+    const msg = score>=9?"Fantastico! Sei preparatissimo 🏆":score>=7?"Molto bene! Ancora un piccolo ripasso 👍":score>=5?"Buon inizio! Ripassa gli errori e riprova 💪":"Nessun problema: rileggi le lezioni e riprova, migliorerai subito 🌱";
+    box.innerHTML=`<div class="card" style="text-align:center"><div class="voto">${score}/${qz.length}</div><div class="bar" style="margin-top:10px"><i style="width:${pct}%"></i></div><p style="margin-top:12px">${msg}${rec?"<br><b>🏅 Nuovo record!</b>":""}</p></div>
+    ${errs.length?`<div class="card"><h3>Gli errori da cui imparare</h3>${errs.map(i=>`<div class="err"><b>${QUIZ[i][0]}</b><br>✓ ${QUIZ[i][1][QUIZ[i][2]]} — <span class="muted">${QUIZ[i][3]}</span></div>`).join("")}</div>`:""}
+    <div class="row"><button class="btn" onclick="startQuiz()">Nuovo quiz</button><button class="btn alt" onclick="go('impara')">Rileggi le lezioni</button></div>`;
+    return;
+  }
+  const [q,opts,ok,sp]=QUIZ[qz[qi]];
+  const order=shuffle(opts.map((o,i)=>i));
+  box.innerHTML=`<div class="card">
+    <p class="muted" style="margin:0">Domanda ${qi+1} di ${qz.length} · Punti: ${score}</p>
+    <div class="dots-step">${qz.map((x,i)=>`<i class="${i<qi?"on":""}"></i>`).join("")}</div>
+    <h3>${q}</h3>
+    ${order.map(i=>`<button class="opt" data-i="${i}">${opts[i]}</button>`).join("")}
+    <div id="fb"></div>
+  </div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i, right=i===ok;
+    if(right) score++; else errs.push(qz[qi]);
+    box.querySelectorAll(".opt").forEach(x=>{ x.disabled=true; if(+x.dataset.i===ok) x.classList.add("ok") });
+    if(!right) b.classList.add("no");
+    $("#fb").innerHTML=`<div class="fb ${right?"ok":"no"}"><b>${right?"Giusto! 🎉":"Quasi! La risposta giusta è in verde."}</b><br>${sp}</div><button class="btn full" style="margin-top:12px" id="nx">${qi+1<qz.length?"Avanti →":"Vedi il risultato"}</button>`;
+    $("#nx").onclick=()=>{qi++;drawQ();window.scrollTo(0,0)};
+    $("#nx").focus({preventScroll:true});
+  });
+}
+
+/* ================= PROVA L'ORALE ================= */
+let pq=null, sec=0, step=0, voceProf=true, giro=null;
+function prova(){
+  voceProf = pref("ar_voce")!=="0";
+  app.innerHTML=`
+  <h2 style="margin-top:8px">🎤 Prova l'interrogazione</h2>
+  <p class="muted">Il “professore” ti fa una domanda. Tu rispondi <b>ad alta voce</b>, come in classe. Se ti blocchi, chiedi un aiutino.</p>
+  <div class="card">
+    <h3>Il metodo per rispondere bene</h3>
+    <div class="steps5">
+      <div><b>1. Cosa?</b>Di cosa parlo</div>
+      <div><b>2. Quando?</b>Le date</div>
+      <div><b>3. Chi?</b>Persone e Stati</div>
+      <div><b>4. Perché?</b>Le cause</div>
+      <div><b>5. Come finisce?</b>Le conseguenze</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Scegli come allenarti</h3>
+    <select id="pf" aria-label="Argomento"><option value="all">Tutto il programma</option>${PARTI.map((p,i)=>`<option value="${i}">Solo parte ${i+1}: ${p}</option>`).join("")}</select>
+    <label style="display:flex;gap:10px;align-items:center;margin:12px 0"><input type="checkbox" id="vp" ${voceProf?"checked":""} style="width:22px;height:22px"> Il professore legge la domanda a voce 🔊</label>
+    <div class="row">
+      <button class="btn" id="b1">🎯 Una domanda alla volta</button>
+      <button class="btn gold" id="b5">📝 Interrogazione completa (5 domande)</button>
+    </div>
+  </div>
+  <div id="pBox"></div>`;
+  $("#vp").onchange=e=>{ voceProf=e.target.checked; pref("ar_voce",voceProf?"1":"0") };
+  $("#b1").onclick=()=>{ giro=null; nuovaDomanda() };
+  $("#b5").onclick=()=>{ iniziaGiro() };
+}
+function pool(){ const f=$("#pf").value; return DOMANDE.map((x,i)=>i).filter(i=>f==="all"||DOMANDE[i][0]===+f) }
+function iniziaGiro(){
+  let pl=pool();
+  // prova a prendere domande da parti diverse
+  const byPart={}; shuffle(pl).forEach(i=>{ (byPart[DOMANDE[i][0]]=byPart[DOMANDE[i][0]]||[]).push(i) });
+  const parts=shuffle(Object.keys(byPart)); let sel=[], k=0;
+  while(sel.length<5 && sel.length<pl.length){ const pp=byPart[parts[k%parts.length]]; if(pp.length) sel.push(pp.shift()); k++ }
+  giro={list:sel, idx:0, voti:[], tempo:0};
+  mostraDomanda(sel[0]);
+}
+function nuovaDomanda(){
+  const pl=pool(); let n; do{ n=pl[Math.floor(Math.random()*pl.length)] }while(pl.length>1 && n===pq);
+  mostraDomanda(n);
+}
+function mostraDomanda(n){
+  clearTimers(); shush();
+  pq=n; sec=0; step=0;
+  const q=DOMANDE[n][1];
+  $("#pBox").innerHTML=`
+  <div class="card">
+    ${giro?`<p class="muted" style="margin:0">Domanda ${giro.idx+1} di ${giro.list.length}</p><div class="dots-step">${giro.list.map((x,i)=>`<i class="${i<=giro.idx?"on":""}"></i>`).join("")}</div>`:""}
+    <div class="prof"><div class="av">👩‍🏫</div><div class="bubble">${q}</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:8px">
+      <button class="spk" onclick="speak(${JSON.stringify(q).replace(/"/g,'&quot;')})">🔊 Ripeti la domanda</button><span class="timer" id="tm">0:00</span>
+    </div>
+    <p class="muted" id="tip">Fai un respiro, ripeti la domanda con parole tue e inizia.</p>
+    <div id="aiuti"></div>
+    <div class="row" style="margin-top:12px" id="pBtns">
+      <button class="btn alt" onclick="aiutino()">💡 Aiutino</button>
+      <button class="btn" onclick="mostraRisp()">Ho finito: controlla</button>
+    </div>
+  </div>`;
+  $("#pBox").scrollIntoView({behavior:"smooth",block:"start"});
+  if(voceProf) timers.push(setTimeout(()=>speak(q),400));
+  timers.push(setInterval(()=>{
+    sec++; const t=$("#tm"); if(!t) return;
+    t.textContent=Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0");
+    const tip=$("#tip");
+    if(sec===25 && tip) tip.innerHTML="Ti sei bloccato? Parti da una <b>data</b> o da un <b>nome</b> che ricordi.";
+    if(sec===50 && tip) tip.innerHTML="Ottimo! Ora prova a dire una <b>causa</b> o una <b>conseguenza</b>.";
+    if(sec===90 && tip) tip.innerHTML="Chiudi con una frase: <i>«In conclusione…»</i>";
+  },1000));
+}
+function aiutino(){
+  const k=DOMANDE[pq][3];
+  if(step<k.length) step++;
+  $("#aiuti").innerHTML=`<div class="ricorda" style="margin-top:12px"><b>Parole chiave:</b><br>${k.slice(0,step).map(x=>`<span class="kw">${x}</span>`).join("")}${step<k.length?`<br><span class="muted">Tocca di nuovo per un'altra parola.</span>`:""}</div>`;
+}
+function mostraRisp(){
+  clearTimers(); shush();
+  const [p,q,a,k]=DOMANDE[pq];
+  S.prove=(S.prove||0)+1; if(giro) giro.tempo+=sec; studied(); save();
+  $("#tip").remove();
+  $("#pBtns").outerHTML=`
+  <div class="info" style="margin-top:12px"><div class="head-row"><b>Risposta modello:</b><button class="spk" onclick="speak(${JSON.stringify(a).replace(/"/g,'&quot;')})">🔊</button></div>${a}<div style="margin-top:6px">${k.map(x=>`<span class="kw">${x}</span>`).join("")}</div></div>
+  <p><b>Come è andata?</b> Hai detto le parole chiave?</p>
+  <div class="row">
+    <button class="btn green" onclick="valuta(1)">😊 Bene</button>
+    <button class="btn gold" onclick="valuta(0.5)">😐 Così così</button>
+    <button class="btn red" onclick="valuta(0)">😕 Da rifare</button>
+  </div>`;
+}
+function valuta(v){
+  if(v===1){ S.known[pq]=1; delete S.review[pq] }
+  else if(v===0){ S.review[pq]=1; delete S.known[pq] }
+  save();
+  if(giro){
+    giro.voti.push(v); giro.idx++;
+    if(giro.idx<giro.list.length) return mostraDomanda(giro.list[giro.idx]);
+    return resoconto();
+  }
+  toast(v===1?"Ottimo! Risposta da interrogazione 🌟":v===0?"Nessun problema: la trovi tra le “da ripassare” 💪":"Ci sei quasi! Rileggi le parole chiave 👍");
+  nuovaDomanda();
+}
+function resoconto(){
+  const tot=giro.voti.reduce((a,b)=>a+b,0), n=giro.voti.length;
+  const voto=Math.round((4+6*tot/n)*2)/2;
+  const min=Math.floor(giro.tempo/60), s=giro.tempo%60;
+  const msg = voto>=8?"Sei pronto! Entra in classe a testa alta. 🌟":voto>=6.5?"Buona preparazione! Ripassa le domande segnate e sarai perfetto.":"Stai costruendo le basi. Ripassa le difficili e rifai la prova: vedrai la differenza!";
+  $("#pBox").innerHTML=`
+  <div class="card" style="text-align:center">
+    <div class="tag">Il tuo resoconto</div>
+    <div class="voto">${String(voto).replace(".",",")}</div>
+    <p class="muted">voto indicativo · ${n} domande · ${min}:${String(s).padStart(2,"0")} minuti di risposta</p>
+    <p>${msg}</p>
+  </div>
+  <div class="card">
+    ${giro.list.map((i,j)=>`<p>${giro.voti[j]===1?"😊":giro.voti[j]===0?"😕":"😐"} ${DOMANDE[i][1]}</p>`).join("")}
+  </div>
+  <div class="row"><button class="btn" onclick="iniziaGiro()">Nuova interrogazione</button>${giro.voti.some(v=>v<1)?`<button class="btn alt" onclick="cardFilter='rev';go('carte')">Ripassa le difficili</button>`:""}</div>`;
+  $("#pBox").scrollIntoView({behavior:"smooth",block:"start"});
+  giro=null;
+}
+
+/* ================= CALMA ================= */
+function calma(){
+  app.innerHTML=`
+  <h2 style="margin-top:8px">💙 Trova la calma</h2>
+  <p class="muted">Essere un po' agitati è normale: vuol dire che ci tieni. Ecco come trasformare l'ansia in sicurezza.</p>
+
+  <div class="card">
+    <h3>1. Respira (1 minuto)</h3>
+    <p>Segui il cerchio: si gonfia mentre inspiri, si sgonfia mentre espiri. Le spalle giù, rilassate.</p>
+    <div class="breath"><div class="circle" id="circ">Pronto?</div>
+    <button class="btn" style="margin-top:14px" id="bBtn">▶ Inizia a respirare</button></div>
+  </div>
+
+  <div class="card">
+    <h3>2. Prima di rispondere</h3>
+    <ul class="dots">
+      <li><b>Ascolta tutta la domanda</b>. Non c'è fretta.</li>
+      <li><b>Conta fino a 3</b> nella testa. Una piccola pausa sembra sicurezza, non insicurezza.</li>
+      <li><b>Ripeti la domanda</b> con parole tue: «Mi chiede quali erano i privilegi del Clero…». Così prendi tempo e ti organizzi.</li>
+      <li>Usa il metodo: <b>Cosa – Quando – Chi – Perché – Come finisce</b>.</li>
+      <li><b>Guarda il professore</b> e parla piano. Chi parla piano sembra preparato.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>3. Frasi per iniziare</h3>
+    <p class="muted">La prima frase è la più difficile. Imparane una per ogni argomento: dopo il resto viene da sé.</p>
+    ${FRASI_AVVIO.map(([t,f])=>`<details><summary>${t}</summary><p style="margin:.5rem 0 0">${f}</p></details>`).join("")}
+    <h3 style="margin-top:14px">Frasi per collegare e concludere</h3>
+    <ul class="dots">${COLLEGA.map(c=>`<li>${c}</li>`).join("")}</ul>
+  </div>
+
+  <div class="card">
+    <h3>4. Se ti blocchi</h3>
+    <ul class="dots">
+      <li>Parti da <b>una cosa che sai</b>: una data, un nome, un luogo. Da lì colleghi il resto.</li>
+      <li>Usa i <b>collegamenti</b>: tutto parte dalla società divisa e dal re assoluto.</li>
+      <li>Puoi dire con calma: <i>«Posso partire da un esempio?»</i> oppure <i>«Mi permetta di ricollegarmi a…»</i>.</li>
+      <li>Se proprio non ricordi, dillo con sincerità e <b>parla di ciò che sai</b> sullo stesso tema. È meglio del silenzio.</li>
+    </ul>
+    <div class="ricorda">💡 <b>I “ganci” dell'Antico Regime:</b> <b>2% contro 98%</b> · <b>Ovest liberi, Est servi</b> · <b>S-P-A</b> per le guerre · <b>1756-1763</b> Sette Anni · <b>1789</b> la fine.</div>
+  </div>
+
+  <div class="card">
+    <h3>5. Il giorno dell'interrogazione</h3>
+    <ul class="dots">
+      <li>Dormi bene la notte prima: il cervello ricorda di più.</li>
+      <li>Fai colazione e bevi un po' d'acqua.</li>
+      <li>La mattina usa solo il <b>⚡ Ripasso lampo</b>. Niente di nuovo.</li>
+      <li>Prima di entrare: 3 respiri lenti e pensa <i>«Io ho studiato. Io lo so.»</i></li>
+    </ul>
+    <button class="btn gold full" onclick="go('impara-lampo')">⚡ Apri il ripasso lampo</button>
+  </div>
+
+  <div class="card" style="text-align:center;background:#2B4C7E;color:#fff;border:none">
+    <p style="font-family:Fraunces,serif;font-size:1.25rem;margin:0" id="frase">${INCORAGGIA[0]}</p>
+    <button class="btn" style="background:#fff;color:#2B4C7E;margin-top:12px" onclick="altraFrase()">Un'altra frase ✨</button>
+  </div>`;
+  $("#bBtn").onclick=startBreath;
+}
+let fIdx=0;
+function altraFrase(){ fIdx=(fIdx+1)%INCORAGGIA.length; $("#frase").textContent=INCORAGGIA[fIdx] }
+function startBreath(){
+  clearTimers();
+  const c=$("#circ"), b=$("#bBtn"); let cycles=0, f=0;
+  b.textContent="Respira con me…"; b.disabled=true;
+  const fasi=[["Inspira dal naso…",4000,1],["Trattieni",2000,1],["Espira piano dalla bocca…",6000,.6]];
+  function next(){
+    if(!$("#circ")) return;
+    if(f===0 && cycles>=5){ c.style.transform="scale(.8)"; c.textContent="Bravo! Ora sei più calmo 💙"; b.textContent="▶ Ripeti"; b.disabled=false; return }
+    const [txt,ms,sc]=fasi[f];
+    c.style.transitionDuration=ms+"ms"; c.style.transform=`scale(${sc})`; c.textContent=txt;
+    f=(f+1)%3; if(f===0) cycles++;
+    timers.push(setTimeout(next,ms));
+  }
+  next();
+}
+
+render();
+</script>
+</body>
+</html>
